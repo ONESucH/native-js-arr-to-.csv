@@ -1,0 +1,71 @@
+<pre>
+var title = [
+      "Заголовок1",
+      "Заголовок2",
+      "Заголовок3",
+    ],
+    user = [
+      {
+        name:"Молоко",
+        price: 10,
+        day: {
+          timer: 1000
+        }
+      },
+        {
+        name:"Кефир",
+        price: 1000,
+        day: {
+          timer: 500
+        }
+      },
+      {
+        name:"Зерна",
+        price: 200,
+        day: {
+          timer: 7000
+        }
+      }
+    ];
+
+user.map(function(item, i) {
+  item.title = title[i];
+});
+
+var csv = '';
+
+var replacerObjects = function(item, i) {
+  console.log('нашли объект ---->', item);
+  
+  for (var key in item) {
+    return item[key];
+  }
+}
+
+user.map(function(item, i) {
+  if (i === user.length -1) {
+      csv += item.title + '\n';
+  } else {
+      csv += item.title + ',';
+  }
+});
+
+user.map(function(item, i) {
+
+  csv += item.name + ',';
+  csv += item.price + ',';
+  
+  for (var key in item) {
+    if (typeof item[key] === 'object') {
+      csv += replacerObjects(item[key]);
+    }
+  }
+  
+  if (i < user.length) {
+    csv += '\n';
+  }
+});
+
+
+console.log('csv', csv);
+</pre>
