@@ -69,3 +69,60 @@ user.map(function(item, i) {
 
 console.log('csv', csv);
 </pre>
+
+
+<h1>Еще вариант, если данные будут динамечески подстраиваться в зависимости от хаданных свойств в объектах</h1>
+<pre>
+ items.map((item, i) => {
+        item.title = titleTable[i];
+    });
+
+    let csv = '';
+
+    let replacerObjects = (item) => {
+        
+        for (let key in item) {
+            return item[key];
+        }
+    };
+
+    items.map((item, i) => {
+        if (i === items.length -1) {
+            csv += item.title + '\n';
+        } else {
+            csv += item.title + ',';
+        }
+    });
+
+    items.map((item, i) => {
+        let objFind;
+
+        for (let key in item) {
+            if (typeof item[key] === 'object') {
+                csv += replacerObjects(item[key]) + ',';
+                objFind = item[key];
+            }
+        }
+
+        bodyTableData.map((searchData) => {
+            let find;
+            for (let key in item) {
+                if (key === searchData) {
+                    csv += item[key]+ ',';
+                } else {
+                    for (let objFindItems in objFind) {
+                        if (objFindItems === searchData) {
+                            find = objFind[objFindItems];
+                        }
+                    }
+                }
+            }
+            
+            if (find) csv += find + ',';
+        });
+
+        if (i < items.length) {
+            csv += '\n';
+        }
+    });
+</pre>
